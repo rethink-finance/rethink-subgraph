@@ -3,7 +3,7 @@ description: rethink
 repository: https://github.com/rethink-finance/rethink-subgraph
 schema:
   file: ./schema.graphql
-
+# https://etherscan.io/block/19506861
 # SOURCES
 dataSources:
   # ====================== GovernableFundFactory ======================
@@ -13,7 +13,7 @@ dataSources:
     source:
       address: "0x9825a09FbC727Bb671f08Fa66e3508a2e8938d45"
       abi: GovernableFundFactory
-      startBlock: 0 #TODO
+      startBlock: 19506861
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -27,6 +27,93 @@ dataSources:
         - event: GovernableFundFactory_CreatedAndInitializedFundEvent(address,address,address,address,address,string)
           handler: handleGovernableFundFactory_CreatedAndInitializedFundEvent
       file: ./mappings/GovernableFundFactory.mapping.ts
+  # ====================== RethinkFundGovernor ======================
+  - kind: ethereum/contract
+    name: RethinkFundGovernor_Test_OIV_-_ETH_Mainnet
+    network: mainnet
+    source:
+      address: "0x3692bAd285A9730C0fF4f4888C0cB07Bda65317b"
+      abi: RethinkFundGovernor
+      startBlock: 19506861
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Governor
+      abis:
+        - name: RethinkFundGovernor
+          file: ./abis/RethinkFundGovernor.json
+      eventHandlers:
+        - event: ProposalCanceled(uint256)
+          handler: handleProposalCanceled
+        - event: ProposalCreated(uint256,address,address[],uint256[],string[],bytes[],uint256,uint256,string)
+          handler: handleProposalCreated
+        - event: ProposalExecuted(uint256)
+          handler: handleProposalExecuted
+        - event: VoteCast(indexed address,uint256,uint8,uint256,string)
+          handler: handleVoteCast
+        - event: VoteCastWithParams(indexed address,uint256,uint8,uint256,string,bytes)
+          handler: handleVoteCastWithParams
+      file: ./mappings/RethinkFundGovernor.mapping.ts
+  # ====================== RethinkFundGovernor ======================
+  - kind: ethereum/contract
+    name: RethinkFundGovernor_Test_OIV_2_-_ETH_Mainnet
+    network: mainnet
+    source:
+      address: "0x7AA6bFC32A2E84cd4CC6A12B98367361012471be"
+      abi: RethinkFundGovernor
+      startBlock: 19506861
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Governor
+      abis:
+        - name: RethinkFundGovernor
+          file: ./abis/RethinkFundGovernor.json
+      eventHandlers:
+        - event: ProposalCanceled(uint256)
+          handler: handleProposalCanceled
+        - event: ProposalCreated(uint256,address,address[],uint256[],string[],bytes[],uint256,uint256,string)
+          handler: handleProposalCreated
+        - event: ProposalExecuted(uint256)
+          handler: handleProposalExecuted
+        - event: VoteCast(indexed address,uint256,uint8,uint256,string)
+          handler: handleVoteCast
+        - event: VoteCastWithParams(indexed address,uint256,uint8,uint256,string,bytes)
+          handler: handleVoteCastWithParams
+      file: ./mappings/RethinkFundGovernor.mapping.ts
+  # ====================== RethinkFundGovernor ======================
+  - kind: ethereum/contract
+    name: RethinkFundGovernor_QCL_Ethereum_On-Chain_Fund
+    network: mainnet
+    source:
+      address: "0x3d0Bd4c8310edfF14Fe3E0BfDAFeE2366Bcfc5d2"
+      abi: RethinkFundGovernor
+      startBlock: 19506861
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Governor
+      abis:
+        - name: RethinkFundGovernor
+          file: ./abis/RethinkFundGovernor.json
+      eventHandlers:
+        - event: ProposalCanceled(uint256)
+          handler: handleProposalCanceled
+        - event: ProposalCreated(uint256,address,address[],uint256[],string[],bytes[],uint256,uint256,string)
+          handler: handleProposalCreated
+        - event: ProposalExecuted(uint256)
+          handler: handleProposalExecuted
+        - event: VoteCast(indexed address,uint256,uint8,uint256,string)
+          handler: handleVoteCast
+        - event: VoteCastWithParams(indexed address,uint256,uint8,uint256,string,bytes)
+          handler: handleVoteCastWithParams
+      file: ./mappings/RethinkFundGovernor.mapping.ts
 # TEMPLATES
 templates:
   # ====================== RethinkFundGovernor ======================
