@@ -3,7 +3,7 @@ description: rethink
 repository: https://github.com/rethink-finance/rethink-subgraph
 schema:
   file: ./schema.graphql
-#https://polygonscan.com/block/55004027
+#https://polygonscan.com/block/42004027
 # SOURCES
 dataSources:
   # ====================== GovernableFundFactory ======================
@@ -13,7 +13,7 @@ dataSources:
     source:
       address: "0x4C342E583A7Aa2840e07B4a3afB71533FBE37726"
       abi: GovernableFundFactory
-      startBlock: 55004027
+      startBlock: 42004027
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -34,7 +34,7 @@ dataSources:
     source:
       address: "0x57C5adF966692482348e3C5993e09Dd64BA5001e"
       abi: RethinkFundGovernor
-      startBlock: 55004027
+      startBlock: 42004027
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -63,7 +63,7 @@ dataSources:
     source:
       address: "0x8FD8068fF88CB291C5fa7681193dD2CDb2Ab0A97"
       abi: RethinkFundGovernor
-      startBlock: 55004027
+      startBlock: 42004027
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -92,7 +92,7 @@ dataSources:
     source:
       address: "0x9cBB432172Cf8d909204D3b550d077C34952236B"
       abi: RethinkFundGovernor
-      startBlock: 55004027
+      startBlock: 42004027
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -121,7 +121,7 @@ dataSources:
     source:
       address: "0x57C5adF966692482348e3C5993e09Dd64BA5001e"
       abi: RethinkFundGovernor
-      startBlock: 55004027
+      startBlock: 42004027
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -150,7 +150,7 @@ dataSources:
     source:
       address: "0x0DB33229fb1C7F4F5d5e57D84B3AcbEd9e826A9B"
       abi: RethinkFundGovernor
-      startBlock: 55004027
+      startBlock: 42004027
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
