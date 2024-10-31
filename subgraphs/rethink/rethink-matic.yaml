@@ -56,9 +56,32 @@ dataSources:
         - event: VoteCastWithParams(indexed address,uint256,uint8,uint256,string,bytes)
           handler: handleVoteCastWithParams
       file: ./mappings/RethinkFundGovernor.mapping.ts
+  # ====================== ERC20Votes ======================
+  - kind: ethereum/contract
+    name: ERC20Votes_ShineDAO_Treasury
+    network: matic
+    source:
+      address: "0x9562ff434F4e302BA9ACc17e7543d030191B637f"
+      abi: ERC20Votes
+      startBlock: 42004027
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - VotingContract
+      abis:
+        - name: ERC20Votes
+          file: ./abis/ERC20Votes.json
+      eventHandlers:
+        - event: DelegateChanged(indexed address,indexed address,indexed address)
+          handler: handleDelegateChanged
+        - event: DelegateVotesChanged(indexed address,uint256,uint256)
+          handler: handleDelegateVotesChanged
+      file: ./mappings/Voting.mapping.ts
   # ====================== RethinkFundGovernor ======================
   - kind: ethereum/contract
-    name: RethinkFundGovernor_ Demo_OIV
+    name: RethinkFundGovernor_Demo_OIV
     network: matic
     source:
       address: "0x8FD8068fF88CB291C5fa7681193dD2CDb2Ab0A97"
@@ -85,6 +108,29 @@ dataSources:
         - event: VoteCastWithParams(indexed address,uint256,uint8,uint256,string,bytes)
           handler: handleVoteCastWithParams
       file: ./mappings/RethinkFundGovernor.mapping.ts
+  # ====================== ERC20Votes ======================
+  - kind: ethereum/contract
+    name: ERC20Votes_Demo_OIV
+    network: matic
+    source:
+      address: "0x1673458dDf6C0ea24ce5598918F3cA1e58f2d795"
+      abi: ERC20Votes
+      startBlock: 42004027
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - VotingContract
+      abis:
+        - name: ERC20Votes
+          file: ./abis/ERC20Votes.json
+      eventHandlers:
+        - event: DelegateChanged(indexed address,indexed address,indexed address)
+          handler: handleDelegateChanged
+        - event: DelegateVotesChanged(indexed address,uint256,uint256)
+          handler: handleDelegateVotesChanged
+      file: ./mappings/Voting.mapping.ts
   # ====================== RethinkFundGovernor ======================
   - kind: ethereum/contract
     name: RethinkFundGovernor_DoC_Treasury_Protection
@@ -114,35 +160,29 @@ dataSources:
         - event: VoteCastWithParams(indexed address,uint256,uint8,uint256,string,bytes)
           handler: handleVoteCastWithParams
       file: ./mappings/RethinkFundGovernor.mapping.ts
-  # ====================== RethinkFundGovernor ======================
+  # ====================== ERC20Votes ======================
   - kind: ethereum/contract
-    name: RethinkFundGovernor_ DoC_Treasury_Protection
+    name: ERC20Votes_DoC_Treasury_Protection
     network: matic
     source:
-      address: "0x57C5adF966692482348e3C5993e09Dd64BA5001e"
-      abi: RethinkFundGovernor
+      address: "0x3005368697dC85E4594CFab0B638D4aa86922613"
+      abi: ERC20Votes
       startBlock: 42004027
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
-        - Governor
+        - VotingContract
       abis:
-        - name: RethinkFundGovernor
-          file: ./abis/RethinkFundGovernor.json
+        - name: ERC20Votes
+          file: ./abis/ERC20Votes.json
       eventHandlers:
-        - event: ProposalCanceled(uint256)
-          handler: handleProposalCanceled
-        - event: ProposalCreated(uint256,address,address[],uint256[],string[],bytes[],uint256,uint256,string)
-          handler: handleProposalCreated
-        - event: ProposalExecuted(uint256)
-          handler: handleProposalExecuted
-        - event: VoteCast(indexed address,uint256,uint8,uint256,string)
-          handler: handleVoteCast
-        - event: VoteCastWithParams(indexed address,uint256,uint8,uint256,string,bytes)
-          handler: handleVoteCastWithParams
-      file: ./mappings/RethinkFundGovernor.mapping.ts
+        - event: DelegateChanged(indexed address,indexed address,indexed address)
+          handler: handleDelegateChanged
+        - event: DelegateVotesChanged(indexed address,uint256,uint256)
+          handler: handleDelegateVotesChanged
+      file: ./mappings/Voting.mapping.ts
   # ====================== RethinkFundGovernor ======================
   - kind: ethereum/contract
     name: RethinkFundGovernor_soonami_Investment_Syndicate_Alpha
@@ -172,6 +212,29 @@ dataSources:
         - event: VoteCastWithParams(indexed address,uint256,uint8,uint256,string,bytes)
           handler: handleVoteCastWithParams
       file: ./mappings/RethinkFundGovernor.mapping.ts
+  # ====================== ERC20Votes ======================
+  - kind: ethereum/contract
+    name: ERC20Votes_soonami_Investment_Syndicate_Alpha
+    network: matic
+    source:
+      address: "0x3005368697dC85E4594CFab0B638D4aa86922613"
+      abi: ERC20Votes
+      startBlock: 42004027
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - VotingContract
+      abis:
+        - name: ERC20Votes
+          file: ./abis/ERC20Votes.json
+      eventHandlers:
+        - event: DelegateChanged(indexed address,indexed address,indexed address)
+          handler: handleDelegateChanged
+        - event: DelegateVotesChanged(indexed address,uint256,uint256)
+          handler: handleDelegateVotesChanged
+      file: ./mappings/Voting.mapping.ts
 # TEMPLATES
 templates:
   # ====================== RethinkFundGovernor ======================
@@ -201,3 +264,24 @@ templates:
         - event: VoteCastWithParams(indexed address,uint256,uint8,uint256,string,bytes)
           handler: handleVoteCastWithParams
       file: ./mappings/RethinkFundGovernor.mapping.ts
+  # ====================== ERC20Votes ======================
+  - kind: ethereum/contract
+    name: ERC20Votes
+    network: matic
+    source:
+      abi: ERC20Votes
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - VotingContract
+      abis:
+        - name: ERC20Votes
+          file: ./abis/ERC20Votes.json
+      eventHandlers:
+        - event: DelegateChanged(indexed address,indexed address,indexed address)
+          handler: handleDelegateChanged
+        - event: DelegateVotesChanged(indexed address,uint256,uint256)
+          handler: handleDelegateVotesChanged
+      file: ./mappings/Voting.mapping.ts
