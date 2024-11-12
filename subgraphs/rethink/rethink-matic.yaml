@@ -23,6 +23,10 @@ dataSources:
       abis:
         - name: GovernableFundFactory
           file: ./abis/GovernableFundFactory.json
+        - name: RethinkFundGovernor
+          file: ./abis/RethinkFundGovernor.json
+        - name: ERC20Votes
+          file: ./abis/ERC20Votes.json
       eventHandlers:
         - event: GovernableFundFactory_CreatedAndInitializedFundEvent(address,address,address,address,address,string)
           handler: handleGovernableFundFactory_CreatedAndInitializedFundEvent
@@ -217,7 +221,7 @@ dataSources:
     name: ERC20Votes_soonami_Investment_Syndicate_Alpha
     network: matic
     source:
-      address: "0x3005368697dC85E4594CFab0B638D4aa86922613"
+      address: "0xc748d5E77B998608Ef84d063b9694f2dBB81a325"
       abi: ERC20Votes
       startBlock: 42004027
     mapping:
