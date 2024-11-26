@@ -5,7 +5,7 @@ import { DelegateChanged, DelegateVotesChanged } from "../generated/schema"
 import {
 	DelegateChanged as DelegateChangedEvent,
 	DelegateVotesChanged as DelegateVotesChangedEvent,
-} from "../generated/templates/VotingContract/ERC20Votes"
+} from "../generated/templates/ERC20Votes/ERC20Votes"
 import { fetchAccount } from "../utils/Account.util"
 import { fetchDelegation } from "../utils/Voting.util"
 
