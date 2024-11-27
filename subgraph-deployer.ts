@@ -67,7 +67,7 @@ let executedDeployments: number = 0
 	for (const { datasourceName, subgraphSlug } of subgraphConfigs) {
 		try {
 			// Display deployment index
-			console.log(`✨ ### DEPLOYMENT ${executedDeployments + 1}/${subgraphConfigs.length}...`)
+			console.log(`✨ ### DEPLOY ${executedDeployments + 1}/${subgraphConfigs.length} (${datasourceName}/${subgraphSlug}...`)
 
 			// Define the subgraph YAML file path
 			const subgraphYamlPath = path.join(srcDir, "subgraphs", datasourceName, `${subgraphSlug}.yaml`)
