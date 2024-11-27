@@ -1,19 +1,19 @@
 specVersion: 0.0.6
-description: rethink
+description: rethinkfinance
 repository: https://github.com/rethink-finance/rethink-subgraph
 schema:
   file: ./schema.graphql
-#https://polygonscan.com/block/42004027
+# https://etherscan.io/block/18000000
 # SOURCES
 dataSources:
   # ====================== GovernableFundFactory ======================
   - kind: ethereum/contract
     name: GovernableFundFactory
-    network: matic
+    network: mainnet
     source:
-      address: "0x4C342E583A7Aa2840e07B4a3afB71533FBE37726"
+      address: "0x9825a09FbC727Bb671f08Fa66e3508a2e8938d45"
       abi: GovernableFundFactory
-      startBlock: 42004027
+      startBlock: 18000000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -33,12 +33,12 @@ dataSources:
       file: ./mappings/GovernableFundFactory.mapping.ts
   # ====================== RethinkFundGovernor ======================
   - kind: ethereum/contract
-    name: RethinkFundGovernor_ShineDAO_Treasury
-    network: matic
+    name: RethinkFundGovernor_Test_OIV_-_ETH_Mainnet
+    network: mainnet
     source:
-      address: "0x57C5adF966692482348e3C5993e09Dd64BA5001e"
+      address: "0x3692bAd285A9730C0fF4f4888C0cB07Bda65317b"
       abi: RethinkFundGovernor
-      startBlock: 42004027
+      startBlock: 18000000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -62,12 +62,12 @@ dataSources:
       file: ./mappings/RethinkFundGovernor.mapping.ts
   # ====================== ERC20Votes ======================
   - kind: ethereum/contract
-    name: ERC20Votes_ShineDAO_Treasury
-    network: matic
+    name: ERC20Votes_Test_OIV_-_ETH_Mainnet
+    network: mainnet
     source:
-      address: "0x9562ff434F4e302BA9ACc17e7543d030191B637f"
+      address: "0x7ed95418063d5b61bDE7b40D65F93739c0CFdcf4"
       abi: ERC20Votes
-      startBlock: 42004027
+      startBlock: 18000000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -85,12 +85,12 @@ dataSources:
       file: ./mappings/Voting.mapping.ts
   # ====================== RethinkFundGovernor ======================
   - kind: ethereum/contract
-    name: RethinkFundGovernor_Demo_OIV
-    network: matic
+    name: RethinkFundGovernor_Test_OIV_2_-_ETH_Mainnet
+    network: mainnet
     source:
-      address: "0x8FD8068fF88CB291C5fa7681193dD2CDb2Ab0A97"
+      address: "0x7AA6bFC32A2E84cd4CC6A12B98367361012471be"
       abi: RethinkFundGovernor
-      startBlock: 42004027
+      startBlock: 18000000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -114,12 +114,12 @@ dataSources:
       file: ./mappings/RethinkFundGovernor.mapping.ts
   # ====================== ERC20Votes ======================
   - kind: ethereum/contract
-    name: ERC20Votes_Demo_OIV
-    network: matic
+    name: ERC20Votes_Test_OIV_2_-_ETH_Mainnet
+    network: mainnet
     source:
-      address: "0x1673458dDf6C0ea24ce5598918F3cA1e58f2d795"
+      address: "0x51cf0Bc0f5312d824a55B83B2c032Fb8c96c249a"
       abi: ERC20Votes
-      startBlock: 42004027
+      startBlock: 18000000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -137,12 +137,12 @@ dataSources:
       file: ./mappings/Voting.mapping.ts
   # ====================== RethinkFundGovernor ======================
   - kind: ethereum/contract
-    name: RethinkFundGovernor_DoC_Treasury_Protection
-    network: matic
+    name: RethinkFundGovernor_QCL_Ethereum_On-Chain_Fund
+    network: mainnet
     source:
-      address: "0x9cBB432172Cf8d909204D3b550d077C34952236B"
+      address: "0x3d0Bd4c8310edfF14Fe3E0BfDAFeE2366Bcfc5d2"
       abi: RethinkFundGovernor
-      startBlock: 42004027
+      startBlock: 18000000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -166,64 +166,12 @@ dataSources:
       file: ./mappings/RethinkFundGovernor.mapping.ts
   # ====================== ERC20Votes ======================
   - kind: ethereum/contract
-    name: ERC20Votes_DoC_Treasury_Protection
-    network: matic
+    name: ERC20Votes_QCL_Ethereum_On-Chain_Fund
+    network: mainnet
     source:
-      address: "0x3005368697dC85E4594CFab0B638D4aa86922613"
+      address: "0xB6aB76d451B98a992FB84A93602527CC30cd3b22"
       abi: ERC20Votes
-      startBlock: 42004027
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.6
-      language: wasm/assemblyscript
-      entities:
-        - VotingContract
-      abis:
-        - name: ERC20Votes
-          file: ./abis/ERC20Votes.json
-      eventHandlers:
-        - event: DelegateChanged(indexed address,indexed address,indexed address)
-          handler: handleDelegateChanged
-        - event: DelegateVotesChanged(indexed address,uint256,uint256)
-          handler: handleDelegateVotesChanged
-      file: ./mappings/Voting.mapping.ts
-  # ====================== RethinkFundGovernor ======================
-  - kind: ethereum/contract
-    name: RethinkFundGovernor_soonami_Investment_Syndicate_Alpha
-    network: matic
-    source:
-      address: "0x0DB33229fb1C7F4F5d5e57D84B3AcbEd9e826A9B"
-      abi: RethinkFundGovernor
-      startBlock: 42004027
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.6
-      language: wasm/assemblyscript
-      entities:
-        - Governor
-      abis:
-        - name: RethinkFundGovernor
-          file: ./abis/RethinkFundGovernor.json
-      eventHandlers:
-        - event: ProposalCanceled(uint256)
-          handler: handleProposalCanceled
-        - event: ProposalCreated(uint256,address,address[],uint256[],string[],bytes[],uint256,uint256,string)
-          handler: handleProposalCreated
-        - event: ProposalExecuted(uint256)
-          handler: handleProposalExecuted
-        - event: VoteCast(indexed address,uint256,uint8,uint256,string)
-          handler: handleVoteCast
-        - event: VoteCastWithParams(indexed address,uint256,uint8,uint256,string,bytes)
-          handler: handleVoteCastWithParams
-      file: ./mappings/RethinkFundGovernor.mapping.ts
-  # ====================== ERC20Votes ======================
-  - kind: ethereum/contract
-    name: ERC20Votes_soonami_Investment_Syndicate_Alpha
-    network: matic
-    source:
-      address: "0xc748d5E77B998608Ef84d063b9694f2dBB81a325"
-      abi: ERC20Votes
-      startBlock: 42004027
+      startBlock: 18000000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -244,7 +192,7 @@ templates:
   # ====================== RethinkFundGovernor ======================
   - kind: ethereum/contract
     name: RethinkFundGovernor
-    network: matic
+    network: mainnet
     source:
       abi: RethinkFundGovernor
     mapping:
@@ -271,7 +219,7 @@ templates:
   # ====================== ERC20Votes ======================
   - kind: ethereum/contract
     name: ERC20Votes
-    network: matic
+    network: mainnet
     source:
       abi: ERC20Votes
     mapping:
