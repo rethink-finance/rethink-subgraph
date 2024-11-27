@@ -22,19 +22,19 @@ interface SubgraphConfig {
 const subgraphConfigs: SubgraphConfig[] = [
 	{
 		datasourceName: "rethink",
-		subgraphSlug: "rethink-base",
+		subgraphSlug: "rethinkfinance-base",
 	},
 	{
 		datasourceName: "rethink",
-		subgraphSlug: "rethink-arbitrum-one",
+		subgraphSlug: "rethinkfinance-arbitrum-one",
 	},
 	{
 		datasourceName: "rethink",
-		subgraphSlug: "rethink-mainnet",
+		subgraphSlug: "rethinkfinance-mainnet",
 	},
 	{
 		datasourceName: "rethink",
-		subgraphSlug: "rethink-matic",
+		subgraphSlug: "rethinkfinance-matic",
 	},
 	// Add more subgraph configurations here if needed
 ]
