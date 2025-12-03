@@ -1,4 +1,4 @@
-type GovernableFund @entity {
+type GovernableFund @entity(immutable: true) {
 	id: Bytes!
 	transaction: Transaction!
 	fundName: String!
@@ -10,7 +10,7 @@ type GovernableFund @entity {
 	governanceToken: Bytes
 	votingContract: VotingContract!
 }
-type Account @entity {
+type Account @entity(immutable: false) {
 	id: Bytes!
 	asGovernor: Governor
 	asVoting: VotingContract
@@ -47,7 +47,7 @@ type VotingContract @entity(immutable: true) {
 	delegateChangedEvent: [DelegateChanged!]! @derivedFrom(field: "contract")
 	delegateVotesChangedEvent: [DelegateVotesChanged!]! @derivedFrom(field: "contract")
 }
-type Proposal @entity {
+type Proposal @entity(immutable: false) {
 	id: ID!
 	governor: Governor!
 	proposalId: BigInt!
@@ -77,7 +77,7 @@ type ProposalCall @entity(immutable: true) {
 	signature: String!
 	calldata: Bytes!
 }
-type ProposalSupport @entity {
+type ProposalSupport @entity(immutable: false) {
 	id: ID!
 	proposal: Proposal!
 	support: Int!
@@ -173,14 +173,14 @@ type DelegateVotesChanged implements Event @entity(immutable: true) {
 	oldValue: BigInt!
 	newValue: BigInt!
 }
-type VoteDelegation @entity {
+type VoteDelegation @entity(immutable: false) {
 	id: ID!
 	contract: VotingContract!
 	delegator: Account!
 	delegatee: Account!
 	delegateChangedEvent: [DelegateChanged!]! @derivedFrom(field: "delegation")
 }
-type VoteWeight @entity {
+type VoteWeight @entity(immutable: false) {
 	id: ID!
 	contract: VotingContract!
 	account: Account

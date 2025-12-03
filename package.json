@@ -23,7 +23,7 @@
 	"devDependencies": {
 		"@amxx/graphprotocol-utils": "^1.2.0",
 		"@graphprotocol/common-ts": "^2.0.1",
-		"@graphprotocol/graph-cli": "^0.87.0",
+		"@graphprotocol/graph-cli": "^0.90.1",
 		"@graphprotocol/graph-ts": "^0.35.1",
 		"@nomiclabs/hardhat-ethers": "^2.0.2",
 		"@nomiclabs/hardhat-ganache": "^2.0.0",

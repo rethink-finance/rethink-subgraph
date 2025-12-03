@@ -31,6 +31,31 @@ dataSources:
         - event: GovernableFundFactory_CreatedAndInitializedFundEvent(address,address,address,address,address,string)
           handler: handleGovernableFundFactory_CreatedAndInitializedFundEvent
       file: ./mappings/GovernableFundFactory.mapping.ts
+  # ====================== GovernableFundFactoryV1.5 ======================
+  - kind: ethereum/contract
+    name: GovernableFundFactoryV1.5
+    network: arbitrum-one
+    source:
+      address: "0x37E5E0ec7Fde0d8794db1FF54A3C2e69E801A9dE"
+      abi: GovernableFundFactoryV1.5
+      startBlock: 120000000
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - GovernableFund
+      abis:
+        - name: GovernableFundFactoryV1.5
+          file: ./abis/GovernableFundFactoryV1.5.json
+        - name: RethinkFundGovernor
+          file: ./abis/RethinkFundGovernor.json
+        - name: ERC20Votes
+          file: ./abis/ERC20Votes.json
+      eventHandlers:
+        - event: GovernableFundFactory_CreatedAndInitializedFundEvent(address,address,address,address,address,string)
+          handler: handleGovernableFundFactory_CreatedAndInitializedFundEvent
+      file: ./mappings/GovernableFundFactory.mapping.ts
   # ====================== RethinkFundGovernor ======================
   - kind: ethereum/contract
     name: RethinkFundGovernor_OIV1

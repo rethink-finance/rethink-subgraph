@@ -169,3 +169,5 @@ typechain
 \*-deploy.log
 
 .graph-node
+
+.idea
