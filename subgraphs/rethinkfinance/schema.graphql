@@ -39,14 +39,38 @@ type Governor @entity(immutable: true) {
 	votecast: [VoteCast!]! @derivedFrom(field: "governor")
 }
 type VotingContract @entity(immutable: true) {
-	id: Bytes!
-	asAccount: Account!
-	totalWeight: VoteWeight!
-	weight: [VoteWeight!]! @derivedFrom(field: "contract")
-	delegation: [VoteDelegation!]! @derivedFrom(field: "contract")
-	delegateChangedEvent: [DelegateChanged!]! @derivedFrom(field: "contract")
-	delegateVotesChangedEvent: [DelegateVotesChanged!]! @derivedFrom(field: "contract")
+  id: Bytes!
+  asAccount: Account!
+  totalWeight: VoteWeight!
+  weight: [VoteWeight!]! @derivedFrom(field: "contract")
+  delegation: [VoteDelegation!]! @derivedFrom(field: "contract")
+  delegateChangedEvent: [DelegateChanged!]! @derivedFrom(field: "contract")
+  delegateVotesChangedEvent: [DelegateVotesChanged!]! @derivedFrom(field: "contract")
 }
+
+"""
+Captures decoded information from GovernableFund.fundFlowsCall(bytes)
+"""
+type FundFlow @entity(immutable: true) {
+  id: ID!
+  fund: GovernableFund!
+  transaction: Transaction!
+  timestamp: BigInt!
+  blockNumber: BigInt!
+  caller: Account!
+  raw: Bytes!
+  selector: Bytes!
+  selectorHex: String!
+  name: String!
+
+  "Optional decoded fields depending on flow kind"
+  flag: Boolean
+  amount: BigInt
+  amount2: BigInt
+  feeKind: BigInt
+  account: Account
+}
+
 type Proposal @entity(immutable: false) {
 	id: ID!
 	governor: Governor!

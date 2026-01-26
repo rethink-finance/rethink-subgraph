@@ -29,8 +29,33 @@ dataSources:
           file: ./abis/ERC20Votes.json
       eventHandlers:
         - event: GovernableFundFactory_CreatedAndInitializedFundEvent(address,address,address,address,address,string)
-          handler: handleGovernableFundFactory_CreatedAndInitializedFundEvent
-      file: ./mappings/GovernableFundFactory.mapping.ts
+          handler: handleGovernableFundFactoryV1_CreatedAndInitializedFundEvent
+      file: ./mappings/GovernableFundFactoryV1.mapping.ts
+  # ====================== GovernableFundFactoryV1.5 ======================
+  - kind: ethereum/contract
+    name: GovernableFundFactoryV1.5
+    network: base
+    source:
+      address: "0xf42694C10a80b36D51Fe6b6F0590a0d8949C4C1e"
+      abi: GovernableFundFactoryV1.5
+      startBlock: 120000000
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - GovernableFund
+      abis:
+        - name: GovernableFundFactoryV1.5
+          file: ./abis/GovernableFundFactoryV1.5.json
+        - name: RethinkFundGovernor
+          file: ./abis/RethinkFundGovernor.json
+        - name: ERC20Votes
+          file: ./abis/ERC20Votes.json
+      eventHandlers:
+        - event: GovernableFundFactory_CreatedAndInitializedFundEvent(address,address,address,address,address,string)
+          handler: handleGovernableFundFactoryV2_CreatedAndInitializedFundEvent
+      file: ./mappings/GovernableFundFactoryV2.mapping.ts
   # ====================== RethinkFundGovernor ======================
   - kind: ethereum/contract
     name: RethinkFundGovernor_INDEFI
@@ -341,3 +366,22 @@ templates:
         - event: DelegateVotesChanged(indexed address,uint256,uint256)
           handler: handleDelegateVotesChanged
       file: ./mappings/Voting.mapping.ts
+  # ====================== GovernableFund ======================
+  - kind: ethereum/contract
+    name: GovernableFund
+    network: base
+    source:
+      abi: GovernableFund
+    mapping:
+      kind: ethereum/call
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - FundFlow
+      abis:
+        - name: GovernableFund
+          file: ./abis/GovernableFund.json
+      callHandlers:
+        - function: fundFlowsCall(bytes)
+          handler: handleFundFlowsCall
+      file: ./mappings/GovernableFund.mapping.ts
