@@ -40,7 +40,7 @@
 		"ethereum-waffle": "^3.3.0",
 		"ethers": "^5.1.0",
 		"hardhat": "^2.1.1",
-		"matchstick-as": "^0.6.0",
+		"mocha": "^11.7.5",
 		"np": "^7.6.2",
 		"prettier": "^2.4.1",
 		"rimraf": "^3.0.2",
@@ -54,7 +54,8 @@
 		"deploy": "ts-node subgraph-deployer.ts",
 		"style:fix": "prettier --write 'subgraphs' 'subgraph-deployer.ts'",
 		"style": "prettier --check 'subgraphs' 'subgraph-deployer.ts'",
-		"test": "graph test"
+		"test": "mocha -r ts-node/register \"tests/**/*.spec.ts\"",
+		"test:mocha": "mocha -r ts-node/register \"tests/**/*.spec.ts\""
 	},
 	"np": {
 		"branch": "main",

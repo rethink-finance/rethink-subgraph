@@ -29,8 +29,8 @@ dataSources:
           file: ./abis/ERC20Votes.json
       eventHandlers:
         - event: GovernableFundFactory_CreatedAndInitializedFundEvent(address,address,address,address,address,string)
-          handler: handleGovernableFundFactory_CreatedAndInitializedFundEvent
-      file: ./mappings/GovernableFundFactory.mapping.ts
+          handler: handleGovernableFundFactoryV1_CreatedAndInitializedFundEvent
+      file: ./mappings/GovernableFundFactoryV1.mapping.ts
   # ====================== GovernableFundFactoryV1.5 ======================
   - kind: ethereum/contract
     name: GovernableFundFactoryV1.5
@@ -54,8 +54,8 @@ dataSources:
           file: ./abis/ERC20Votes.json
       eventHandlers:
         - event: GovernableFundFactory_CreatedAndInitializedFundEvent(address,address,address,address,address,string)
-          handler: handleGovernableFundFactory_CreatedAndInitializedFundEvent
-      file: ./mappings/GovernableFundFactory.mapping.ts
+          handler: handleGovernableFundFactoryV2_CreatedAndInitializedFundEvent
+      file: ./mappings/GovernableFundFactoryV2.mapping.ts
   # ====================== RethinkFundGovernor ======================
   - kind: ethereum/contract
     name: RethinkFundGovernor_Test_OIV_-_ETH_Mainnet
@@ -262,3 +262,22 @@ templates:
         - event: DelegateVotesChanged(indexed address,uint256,uint256)
           handler: handleDelegateVotesChanged
       file: ./mappings/Voting.mapping.ts
+  # ====================== GovernableFund ======================
+  - kind: ethereum/contract
+    name: GovernableFund
+    network: mainnet
+    source:
+      abi: GovernableFund
+    mapping:
+      kind: ethereum/call
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - FundFlow
+      abis:
+        - name: GovernableFund
+          file: ./abis/GovernableFund.json
+      callHandlers:
+        - function: fundFlowsCall(bytes)
+          handler: handleFundFlowsCall
+      file: ./mappings/GovernableFund.mapping.ts

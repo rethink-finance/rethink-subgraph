@@ -2,17 +2,20 @@ import { transactions } from "@amxx/graphprotocol-utils"
 import { GovernableFund, Governor, VotingContract } from "../generated/schema"
 
 import { Address } from "@graphprotocol/graph-ts"
-import { GovernableFundFactory_CreatedAndInitializedFundEvent } from "../generated/GovernableFundFactory/GovernableFundFactory"
-import { ERC20Votes, RethinkFundGovernor } from "../generated/templates"
+import { GovernableFundFactory_CreatedAndInitializedFundEvent } from "../generated/GovernableFundFactoryV1.5/GovernableFundFactoryV1_5"
+import { ERC20Votes, RethinkFundGovernor, GovernableFund as GovernableFundTemplate } from "../generated/templates"
 import { fetchGovernor } from "../utils/RethinkFundGovernor.util"
 import { fetchVoting } from "../utils/Voting.util"
 
-export function handleGovernableFundFactory_CreatedAndInitializedFundEvent(
-	event: GovernableFundFactory_CreatedAndInitializedFundEvent,
+export function handleGovernableFundFactoryV2_CreatedAndInitializedFundEvent(
+    event: GovernableFundFactory_CreatedAndInitializedFundEvent,
 ): void {
-	let governor = createGovernorTemplate(event.params.govContractAddr)
-	let voting = createVotingTemplate(event.params.governanceToken)
-	let fund = new GovernableFund(event.params.fundContractAddr)
+    let governor = createGovernorTemplate(event.params.govContractAddr)
+    let voting = createVotingTemplate(event.params.governanceToken)
+    // Start indexing this fund instance
+    GovernableFundTemplate.create(event.params.fundContractAddr)
+    // Entity ID type is Bytes in schema; use the address directly
+    let fund = new GovernableFund(event.params.fundContractAddr)
 	fund.transaction = transactions.log(event).id
 	fund.governor = governor.id
 	fund.votingContract = voting.id
@@ -22,6 +25,9 @@ export function handleGovernableFundFactory_CreatedAndInitializedFundEvent(
 	fund.safeProxyAddr = event.params.safeProxyAddr
 	fund.rolesModifier = event.params.rolesModifier
 	fund.governanceToken = event.params.governanceToken
+
+    // Note: schema has no factoryVersion field; do not assign it here
+
 	fund.save()
 }
 
