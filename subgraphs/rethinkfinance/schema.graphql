@@ -69,6 +69,7 @@ type FundFlow @entity(immutable: true) {
   amount2: BigInt
   feeKind: BigInt
   account: Account
+  txFrom: Account
 }
 
 type Proposal @entity(immutable: false) {
