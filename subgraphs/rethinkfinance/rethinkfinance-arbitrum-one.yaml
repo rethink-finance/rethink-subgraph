@@ -6,9 +6,12 @@ features:
 # Reuse everything v1.0.7 (QmbTmrr…) indexed before it froze at block
 # 273304044; only blocks after the graft point re-sync. Remove this once a
 # fresh full sync is preferred. The base deployment must stay published.
+# The block must sit inside the base's retained range — that deployment is
+# pruned to [273277443, 273278604], and an earlier graft point is rejected
+# outright ("its earliest available block is …").
 graft:
   base: QmbTmrrQ73qse68Qb1EFvErKVwYAxNWVdX2UuqMeiFeuXQ
-  block: 273270000
+  block: 273278500
 schema:
   file: ./schema.graphql
 #https://arbiscan.io/block/120000000
