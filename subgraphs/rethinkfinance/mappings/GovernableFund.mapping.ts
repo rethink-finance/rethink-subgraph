@@ -1,6 +1,9 @@
 import { Address, BigInt, Bytes, ByteArray, crypto, ethereum } from "@graphprotocol/graph-ts"
 import { FundFlow, Transaction } from "../generated/schema"
-import { FundFlowsCallCall } from "../generated/templates/GovernableFund/GovernableFund"
+import {
+  FundFlowsCallCall,
+  Transfer as FundTokenTransfer,
+} from "../generated/templates/GovernableFund/GovernableFund"
 import { fetchAccount } from "../utils/Account.util"
 
 // Helper to compute 4-byte selector from signature at runtime
@@ -27,14 +30,76 @@ function toHex(bytes: Bytes): string {
   return out
 }
 
+// Call-handler path: exact, catches contract-mediated calls too, but requires
+// the indexer's RPC to support trace_filter — only manifests for chains that
+// have it (mainnet, base) may reference this handler.
 export function handleFundFlowsCall(call: FundFlowsCallCall): void {
-  const fundAddress = call.to
-  const caller = fetchAccount(call.from)
+  saveFundFlow(
+    call.to,
+    call.from,
+    call.transaction.from,
+    call.inputs.flowCall,
+    call.transaction.hash,
+    call.block,
+  )
+}
 
-  const raw: Bytes = call.inputs.flowCall
+// Event-handler path for chains whose RPCs lack trace_filter (Arbitrum,
+// Polygon, HyperEVM), where call handlers freeze the subgraph. A flow call
+// that moves value emits a share-token Transfer (mint = deposit / fee,
+// burn = withdrawal), and when the fund was called directly the original
+// fundFlowsCall calldata is still reachable through the transaction input —
+// which is what every flow the dApp produces looks like. Not covered here:
+// pure-storage calls that emit nothing (requestDeposit, requestWithdraw,
+// revokeDepositWithrawal) and calls routed through another contract.
+export function handleFundTokenTransfer(event: FundTokenTransfer): void {
+  const zero = Address.zero()
+  const isMint = bytesEq(event.params.from, zero)
+  const isBurn = bytesEq(event.params.to, zero)
+  if (!isMint && !isBurn) return // plain share transfers are not flows
+
+  const txTo = event.transaction.to
+  if (txTo === null) return
+  if (!bytesEq(txTo as Address, event.address)) return // calldata belongs to another contract
+
+  const input = event.transaction.input
+  if (input.length < 4) return
+  const outerSel = Bytes.fromUint8Array(input.slice(0, 4))
+  if (!bytesEq(outerSel, selectorFor("fundFlowsCall(bytes)"))) return
+
+  // Strip the outer selector and decode the single `bytes flowCall` argument.
+  const dec = ethereum.decode("bytes", Bytes.fromUint8Array(input.slice(4)))
+  if (dec == null) return
+
+  saveFundFlow(
+    event.address,
+    event.transaction.from,
+    event.transaction.from,
+    dec!.toBytes(),
+    event.transaction.hash,
+    event.block,
+  )
+}
+
+function saveFundFlow(
+  fundAddress: Address,
+  callerAddress: Address,
+  txFromAddress: Address,
+  raw: Bytes,
+  txHash: Bytes,
+  block: ethereum.Block,
+): void {
   if (raw.length < 4) return
   const sel = Bytes.fromUint8Array(raw.slice(0, 4))
   const data = Bytes.fromUint8Array(raw.slice(4))
+
+  const id = txHash.toHex() + ":" + block.number.toString() + ":" + toHex(sel)
+  // FundFlow is immutable, and a single tx can reach this more than once
+  // (mintToMany emits one Transfer per recipient) — only the first write may
+  // happen.
+  if (FundFlow.load(id) != null) return
+
+  const caller = fetchAccount(callerAddress)
 
   // Known signatures
   const SIG_REVOKE = selectorFor("revokeDepositWithrawal(bool)")
@@ -123,25 +188,23 @@ export function handleFundFlowsCall(call: FundFlowsCallCall): void {
     if (dec != null) account = dec!.toAddress()
   }
 
-  const id = call.transaction.hash.toHex() +
-    ":" + call.block.number.toString() +
-    ":" + toHex(sel)
   const flow = new FundFlow(id)
   flow.fund = fundAddress
   // transactions.log expects an Event, but this handler receives a Call.
   // Create/ensure a Transaction entity from the call context.
-  const txId = call.transaction.hash.toHex()
+  const txId = txHash.toHex()
   let tx = Transaction.load(txId)
   if (tx == null) {
     tx = new Transaction(txId)
-    tx.timestamp = call.block.timestamp
-    tx.blockNumber = call.block.number
+    tx.timestamp = block.timestamp
+    tx.blockNumber = block.number
     tx.save()
   }
   flow.transaction = txId
-  flow.timestamp = call.block.timestamp
-  flow.blockNumber = call.block.number
+  flow.timestamp = block.timestamp
+  flow.blockNumber = block.number
   flow.caller = caller.id
+  flow.txFrom = fetchAccount(txFromAddress).id
   flow.raw = raw
   flow.selector = sel
   flow.selectorHex = toHex(sel)

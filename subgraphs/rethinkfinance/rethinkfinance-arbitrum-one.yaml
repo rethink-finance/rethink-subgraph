@@ -1,6 +1,17 @@
 specVersion: 0.0.6
 description: rethinkfinance
 repository: https://github.com/rethink-finance/rethink-subgraph
+features:
+  - grafting
+# Reuse everything v1.0.7 (QmbTmrr…) indexed before it froze at block
+# 273304044; only blocks after the graft point re-sync. Remove this once a
+# fresh full sync is preferred. The base deployment must stay published.
+# The block must sit inside the base's retained range — that deployment is
+# pruned to [273277443, 273278604], and an earlier graft point is rejected
+# outright ("its earliest available block is …").
+graft:
+  base: QmbTmrrQ73qse68Qb1EFvErKVwYAxNWVdX2UuqMeiFeuXQ
+  block: 273278500
 schema:
   file: ./schema.graphql
 #https://arbiscan.io/block/120000000
@@ -419,13 +430,17 @@ templates:
           handler: handleDelegateVotesChanged
       file: ./mappings/Voting.mapping.ts
   # ====================== GovernableFund ======================
+  # Call handlers need the trace_filter RPC, which no Arbitrum provider
+  # offers — v1.0.7 froze on exactly that. Flows are recovered from the
+  # share-token Transfer events a flow call emits instead; see
+  # handleFundTokenTransfer for what that covers.
   - kind: ethereum/contract
     name: GovernableFund
     network: arbitrum-one
     source:
       abi: GovernableFund
     mapping:
-      kind: ethereum/call
+      kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
@@ -433,7 +448,7 @@ templates:
       abis:
         - name: GovernableFund
           file: ./abis/GovernableFund.json
-      callHandlers:
-        - function: fundFlowsCall(bytes)
-          handler: handleFundFlowsCall
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleFundTokenTransfer
       file: ./mappings/GovernableFund.mapping.ts

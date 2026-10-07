@@ -118,7 +118,9 @@ templates:
     source:
       abi: GovernableFund
     mapping:
-      kind: ethereum/call
+      # No trace_filter RPC on this chain → call handlers freeze the subgraph.
+      # Flows come from the share-token Transfer events instead.
+      kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
@@ -126,7 +128,7 @@ templates:
       abis:
         - name: GovernableFund
           file: ./abis/GovernableFund.json
-      callHandlers:
-        - function: fundFlowsCall(bytes)
-          handler: handleFundFlowsCall
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleFundTokenTransfer
       file: ./mappings/GovernableFund.mapping.ts
