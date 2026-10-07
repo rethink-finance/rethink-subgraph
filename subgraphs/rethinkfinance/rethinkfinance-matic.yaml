@@ -31,6 +31,33 @@ dataSources:
         - event: GovernableFundFactory_CreatedAndInitializedFundEvent(address,address,address,address,address,string)
           handler: handleGovernableFundFactoryV1_CreatedAndInitializedFundEvent
       file: ./mappings/GovernableFundFactoryV1.mapping.ts
+  # ====================== GovernableFundFactoryV1.5 ======================
+  # Roles V2 factory, deployed 2026-10-06 (proxy created in tx
+  # 0x9e59e0de82814ba3508a72993cd46351a7ad5a56eecc74e3a0d06fb6b8a29833).
+  - kind: ethereum/contract
+    name: GovernableFundFactoryV1.5
+    network: matic
+    source:
+      address: "0xD45e5D73bcD8625f8B5C4b1b6DD7Ca48Dd47F4F6"
+      abi: GovernableFundFactoryV1.5
+      startBlock: 95045353
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - GovernableFund
+      abis:
+        - name: GovernableFundFactoryV1.5
+          file: ./abis/GovernableFundFactoryV1.5.json
+        - name: RethinkFundGovernor
+          file: ./abis/RethinkFundGovernor.json
+        - name: ERC20Votes
+          file: ./abis/ERC20Votes.json
+      eventHandlers:
+        - event: GovernableFundFactory_CreatedAndInitializedFundEvent(address,address,address,address,address,string)
+          handler: handleGovernableFundFactoryV2_CreatedAndInitializedFundEvent
+      file: ./mappings/GovernableFundFactoryV2.mapping.ts
   # ====================== RethinkFundGovernor ======================
   - kind: ethereum/contract
     name: RethinkFundGovernor_ShineDAO_Treasury
